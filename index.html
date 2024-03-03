@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whack-a-Mole Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        #game-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .hole {
+            width: 100px;
+            height: 100px;
+            background-color: #654321;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .mole {
+            width: 80px;
+            height: 80px;
+            background-color: #8B4513;
+            border-radius: 50%;
+            display: none;
+        }
+        #score, #time {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        #start-button {
+            font-size: 18px;
+            margin-top: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Whack-a-Mole</h1>
+    <div id="game-container">
+        <div class="hole"><div class="mole"></div></div>
+        <div class="hole"><div class="mole"></div></div>
+        <div class="hole"><div class="mole"></div></div>
+        <div class="hole"><div class="mole"></div></div>
+        <div class="hole"><div class="mole"></div></div>
+        <div class="hole"><div class="mole"></div></div>
+        <div class="hole"><div class="mole"></div></div>
+        <div class="hole"><div class="mole"></div></div>
+        <div class="hole"><div class="mole"></div></div>
+    </div>
+    <div id="score">Score: 0</div>
+    <div id="time">Time: 30</div>
+    <button id="start-button">Start Game</button>
+
+    <script>
+        const holes = document.querySelectorAll('.hole');
+        const moles = document.querySelectorAll('.mole');
+        const scoreDisplay = document.querySelector('#score');
+        const timeDisplay = document.querySelector('#time');
+        const startButton = document.querySelector('#start-button');
+
+        let score = 0;
+        let timeLeft = 30;
+        let gameInterval;
+        let countdownInterval;
+
+        function randomHole() {
+            const index = Math.floor(Math.random() * holes.length);
+            return holes[index];
+        }
+
+        function peep() {
+            const hole = randomHole();
+            const mole = hole.querySelector('.mole');
+            mole.style.display = 'block';
+            setTimeout(() => {
+                mole.style.display = 'none';
+                if (timeLeft > 0) peep();
+            }, 1000);
+        }
+
+        function startGame() {
+            score = 0;
+            timeLeft = 30;
+            scoreDisplay.textContent = `Score: ${score}`;
+            timeDisplay.textContent = `Time: ${timeLeft}`;
+            startButton.disabled = true;
+            peep();
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                timeDisplay.textContent = `Time: ${timeLeft}`;
+                if (timeLeft === 0) {
+                    clearInterval(countdownInterval);
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function endGame() {
+            startButton.disabled = false;
+            moles.forEach(mole => mole.style.display = 'none');
+            alert(`Game Over! Your score is ${score}`);
+        }
+
+        moles.forEach(mole => {
+            mole.addEventListener('click', () => {
+                if (mole.style.display === 'block') {
+                    score++;
+                    scoreDisplay.textContent = `Score: ${score}`;
+                    mole.style.display = 'none';
+                }
+            });
+        });
+
+        startButton.addEventListener('click', startGame);
+    </script>
+</body>
+</html>
