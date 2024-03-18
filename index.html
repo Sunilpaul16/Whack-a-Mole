@@ -103,6 +103,7 @@
             timeDisplay.textContent = `Time: ${timeLeft}`;
             startButton.disabled = true;
             peep();
+
             countdownInterval = setInterval(() => {
                 timeLeft--;
                 timeDisplay.textContent = `Time: ${timeLeft}`;
