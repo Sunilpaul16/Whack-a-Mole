@@ -78,7 +78,8 @@
         document.querySelector('.chirp-button').addEventListener('click', function() {
 
           const chirpContent = document.querySelector('.chirp-input').value;
-            if (chirpContent.trim() !== '') {
+
+          if (chirpContent.trim() !== '') {
                 addChirp(chirpContent);
 
                 document.querySelector('.chirp-input').value = '';
