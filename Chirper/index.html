@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chirper</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #1da1f2;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .chirp-box {
+            background-color: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .chirp-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e1e8ed;
+            border-radius: 5px;
+            resize: none;
+        }
+        .chirp-button {
+            background-color: #1da1f2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .chirp {
+            border-bottom: 1px solid #e1e8ed;
+            padding: 10px 0;
+        }
+        .chirp-actions {
+            margin-top: 5px;
+        }
+        .chirp-actions button {
+            background: none;
+            border: none;
+            color: #657786;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Chirper</h1>
+    </header>
+    <div class="container">
+        <div class="chirp-box">
+            <textarea class="chirp-input" placeholder="What's happening?" rows="3"></textarea>
+            <button class="chirp-button">Chirp</button>
+        </div>
+        <div id="chirp-feed">
+            <!-- Chirps will be added here -->
+        </div>
+    </div>
+    <script>
+        document.querySelector('.chirp-button').addEventListener('click', function() {
+
+          const chirpContent = document.querySelector('.chirp-input').value;
+          if (chirpContent.trim() !== '') {
+            addChirp(chirpContent);
+                document.querySelector('.chirp-input').value = '';
+            }
+        });
+
+        function addChirp(content) {
+            const chirpFeed = document.getElementById('chirp-feed');
+            const chirp = document.createElement('div');
+            chirp.className = 'chirp';
+            chirp.innerHTML = `
+                <p>${content}</p>
+                <div class="chirp-actions">
+                    <button onclick="likeChirp(this)">Like</button>
+                    <button onclick="reChirp(this)">Rechirp</button>
+                </div>
+            `;
+            chirpFeed.prepend(chirp);
+        }
+
+        function likeChirp(button) {
+            button.innerHTML = button.innerHTML === 'Like' ? 'Liked!' : 'Like';
+        }
+
+        function reChirp(button) {
+            button.innerHTML = button.innerHTML === 'Rechirp' ? 'Rechirped!' : 'Rechirp';
+        }
+
+        // Add some initial chirps
+        addChirp("Hello, Chirper! This is my first chirp.");
+        addChirp("I'm learning web development. It's exciting!");
+        addChirp("Check out this cool Chirper clone I found!");
+    </script>
+</body>
+</html>
